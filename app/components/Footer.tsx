@@ -66,10 +66,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-        <div>
-          © {new Date().getFullYear()} Forte Solar. Built with Next.js &
-          Tailwind CSS.
-        </div>
+        <div>© 2026 Forte Solar. Built with Next.js & Tailwind CSS.</div>
         <div className="mt-4 sm:mt-0 flex gap-6">
           <a href="#" className="hover:text-slate-400">
             Privacy Policy
