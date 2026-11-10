@@ -17,7 +17,6 @@ export default function LeadEstimator() {
   const [phone, setPhone] = useState<string>("");
   const [zipCode, setZipCode] = useState<string>("");
 
-  // Calculate savings based on bill selection
   const getSavings = () => {
     switch (monthlyBill) {
       case "100-200":
@@ -176,7 +175,11 @@ export default function LeadEstimator() {
                       >
                         <span className="font-semibold">{item.label}</span>
                         <span
-                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${monthlyBill === item.id ? "border-emerald-400 bg-emerald-400 text-slate-950 text-xs font-bold" : "border-slate-600"}`}
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                            monthlyBill === item.id
+                              ? "border-emerald-400 bg-emerald-400 text-slate-950 text-xs font-bold"
+                              : "border-slate-600"
+                          }`}
                         >
                           {monthlyBill === item.id ? "✓" : ""}
                         </span>
