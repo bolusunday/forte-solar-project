@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-// Define TypeScript interfaces for form state and wizard steps
 type RoofType = "shingle" | "tile" | "metal" | "flat";
 type BillRange = "100-200" | "200-400" | "400+";
 
@@ -39,19 +38,22 @@ export default function LeadEstimator() {
       case "400+":
         return { monthly: "$480", twentyFiveYear: "$89,000" };
       default:
-        return { monthly: "$250", twentyFiveYear: "$45,000" };
+        return { monthly: "$290", twentyFiveYear: "$54,200" };
     }
   };
 
   const savings = calculateSavings();
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleRoofSelect = (type: RoofType) => {
+    setFormData((prev) => ({ ...prev, roofType: type }));
+  };
+
+  const handleBillSelect = (range: BillRange) => {
+    setFormData((prev) => ({ ...prev, monthlyBill: range }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, you would send formData to your API endpoint or CRM here
     setIsSubmitted(true);
   };
 
@@ -139,7 +141,7 @@ export default function LeadEstimator() {
             <form onSubmit={handleSubmit}>
               {/* STEP 1: Roof Type Selection */}
               {step === 1 && (
-                <div className="space-y-6 animate-fadeIn">
+                <div className="space-y-6">
                   <h3 className="text-xl font-bold">
                     What type of roof do you have?
                   </h3>
@@ -153,9 +155,7 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() =>
-                          handleInputChange("roofType", item.id as RoofType)
-                        }
+                        onClick={() => handleRoofSelect(item.id as RoofType)}
                         className={`p-5 rounded-2xl border text-left transition-all flex flex-col gap-2 ${
                           formData.roofType === item.id
                             ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
@@ -182,7 +182,7 @@ export default function LeadEstimator() {
 
               {/* STEP 2: Monthly Electric Bill */}
               {step === 2 && (
-                <div className="space-y-6 animate-fadeIn">
+                <div className="space-y-6">
                   <h3 className="text-xl font-bold">
                     What is your average monthly electric bill?
                   </h3>
@@ -195,9 +195,7 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() =>
-                          handleInputChange("monthlyBill", item.id as BillRange)
-                        }
+                        onClick={() => handleBillSelect(item.id as BillRange)}
                         className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between ${
                           formData.monthlyBill === item.id
                             ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
@@ -235,7 +233,7 @@ export default function LeadEstimator() {
 
               {/* STEP 3: Contact Details & Live Estimate Reveal */}
               {step === 3 && (
-                <div className="space-y-6 animate-fadeIn">
+                <div className="space-y-6">
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between">
                     <div>
                       <div className="text-xs text-emerald-400 uppercase tracking-wider font-semibold">
@@ -270,7 +268,10 @@ export default function LeadEstimator() {
                         placeholder="John Doe"
                         value={formData.fullName}
                         onChange={(e) =>
-                          handleInputChange("fullName", e.target.value)
+                          setFormData((prev) => ({
+                            ...prev,
+                            fullName: e.target.value,
+                          }))
                         }
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
@@ -285,7 +286,10 @@ export default function LeadEstimator() {
                         placeholder="90210"
                         value={formData.zipCode}
                         onChange={(e) =>
-                          handleInputChange("zipCode", e.target.value)
+                          setFormData((prev) => ({
+                            ...prev,
+                            zipCode: e.target.value,
+                          }))
                         }
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
@@ -303,7 +307,10 @@ export default function LeadEstimator() {
                         placeholder="john@example.com"
                         value={formData.email}
                         onChange={(e) =>
-                          handleInputChange("email", e.target.value)
+                          setFormData((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
                         }
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
@@ -318,7 +325,10 @@ export default function LeadEstimator() {
                         placeholder="(555) 000-0000"
                         value={formData.phone}
                         onChange={(e) =>
-                          handleInputChange("phone", e.target.value)
+                          setFormData((prev) => ({
+                            ...prev,
+                            phone: e.target.value,
+                          }))
                         }
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
