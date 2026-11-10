@@ -58,47 +58,33 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Visual Preview / Graphic Placeholder */}
+          {/* Right Column: Modern Split-Screen Visual / Mockup */}
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="aspect-video lg:aspect-square rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950 border border-slate-800 p-6 shadow-2xl flex flex-col justify-between relative overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent" />
-
-              <div className="relative z-10 flex justify-between items-center border-b border-slate-800 pb-4">
-                <span className="text-xs uppercase tracking-widest text-emerald-400 font-bold">
-                  Live ROI Estimator Preview
-                </span>
-                <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-md">
-                  Instant Results
-                </span>
-              </div>
-
-              <div className="relative z-10 space-y-4 my-auto">
-                <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-                  <div className="text-xs text-slate-400">
-                    Estimated 25-Year Savings
+            <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl p-3">
+              <div className="rounded-2xl overflow-hidden aspect-video lg:aspect-4/3 relative bg-slate-900 flex items-center justify-center border border-slate-800/80">
+                {/* Visual Background Gradient & Graphic representation of Solar Home */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950/50 via-slate-900/80 to-slate-950 flex flex-col items-center justify-center p-8 text-center">
+                  <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-3xl flex items-center justify-center text-4xl shadow-2xl mb-4 transform hover:scale-105 transition-transform">
+                    🏡
                   </div>
-                  <div className="text-3xl font-black text-emerald-400">
-                    $34,250
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                    <div className="text-xs text-slate-400">
-                      Federal Tax Credit
-                    </div>
-                    <div className="text-lg font-bold text-white">30% Off</div>
-                  </div>
-                  <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                    <div className="text-xs text-slate-400">Payback Period</div>
-                    <div className="text-lg font-bold text-white">
-                      4.2 Years
-                    </div>
-                  </div>
+                  <h3 className="text-white font-bold text-xl mb-1">
+                    High-Efficiency Solar Array
+                  </h3>
+                  <p className="text-xs text-slate-400 max-w-xs">
+                    Engineered for maximum daily sunlight absorption and weather
+                    durability.
+                  </p>
                 </div>
               </div>
 
-              <div className="relative z-10 text-xs text-slate-500 text-center">
-                Interactive widget loading in next section...
+              {/* Floating ROI Stat Badge */}
+              <div className="absolute bottom-6 left-6 bg-slate-900/95 backdrop-blur-md border border-slate-800 p-4 rounded-2xl shadow-2xl">
+                <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">
+                  Average 25-Year Return
+                </div>
+                <div className="text-2xl font-black text-emerald-400">
+                  $54,200 Saved
+                </div>
               </div>
             </div>
           </div>
