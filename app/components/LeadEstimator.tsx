@@ -5,32 +5,21 @@ import { useState } from "react";
 type RoofType = "shingle" | "tile" | "metal" | "flat";
 type BillRange = "100-200" | "200-400" | "400+";
 
-interface FormData {
-  roofType: RoofType;
-  monthlyBill: BillRange;
-  fullName: string;
-  email: string;
-  phone: string;
-  zipCode: string;
-}
-
 export default function LeadEstimator() {
   const [step, setStep] = useState<number>(1);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // Form State
-  const [formData, setFormData] = useState<FormData>({
-    roofType: "shingle",
-    monthlyBill: "200-400",
-    fullName: "",
-    email: "",
-    phone: "",
-    zipCode: "",
-  });
+  const [roofType, setRoofType] = useState<RoofType>("shingle");
+  const [monthlyBill, setMonthlyBill] = useState<BillRange>("200-400");
 
-  // Calculate dynamic estimated savings based on bill input
-  const calculateSavings = () => {
-    switch (formData.monthlyBill) {
+  const [fullName, setFullName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [zipCode, setZipCode] = useState<string>("");
+
+  // Calculate savings based on bill selection
+  const getSavings = () => {
+    switch (monthlyBill) {
       case "100-200":
         return { monthly: "$140", twentyFiveYear: "$28,500" };
       case "200-400":
@@ -42,15 +31,7 @@ export default function LeadEstimator() {
     }
   };
 
-  const savings = calculateSavings();
-
-  const handleRoofSelect = (type: RoofType) => {
-    setFormData((prev) => ({ ...prev, roofType: type }));
-  };
-
-  const handleBillSelect = (range: BillRange) => {
-    setFormData((prev) => ({ ...prev, monthlyBill: range }));
-  };
+  const savings = getSavings();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +41,6 @@ export default function LeadEstimator() {
   return (
     <section id="estimator" className="py-24 bg-slate-950 text-white relative">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-12">
           <span className="text-emerald-400 font-semibold text-sm uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
             Interactive Lead Funnel
@@ -74,9 +54,7 @@ export default function LeadEstimator() {
           </p>
         </div>
 
-        {/* Wizard Container */}
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-          {/* Progress Bar */}
           {!isSubmitted && (
             <div className="mb-8">
               <div className="flex justify-between text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
@@ -98,23 +76,19 @@ export default function LeadEstimator() {
             </div>
           )}
 
-          {/* Success Screen */}
           {isSubmitted ? (
             <div className="text-center py-12 space-y-6">
               <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl">
                 ✓
               </div>
               <h3 className="text-2xl font-bold">
-                Your Estimate is Ready, {formData.fullName}!
+                Your Estimate is Ready, {fullName}!
               </h3>
               <p className="text-slate-300 max-w-md mx-auto">
                 We've sent your breakdown to{" "}
-                <span className="text-emerald-400">{formData.email}</span>. A
-                local solar specialist will review your roof layout for zip code{" "}
-                <span className="text-white font-semibold">
-                  {formData.zipCode}
-                </span>
-                .
+                <span className="text-emerald-400">{email}</span>. A local
+                specialist will review your roof for zip code{" "}
+                <span className="text-white font-semibold">{zipCode}</span>.
               </p>
               <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 max-w-sm mx-auto">
                 <div className="text-xs text-slate-400">
@@ -132,14 +106,13 @@ export default function LeadEstimator() {
                   setIsSubmitted(false);
                   setStep(1);
                 }}
-                className="text-sm text-slate-400 hover:text-white underline pt-4"
+                className="text-sm text-slate-400 hover:text-white underline pt-4 cursor-pointer"
               >
                 Reset Calculator
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              {/* STEP 1: Roof Type Selection */}
               {step === 1 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -155,9 +128,9 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() => handleRoofSelect(item.id as RoofType)}
-                        className={`p-5 rounded-2xl border text-left transition-all flex flex-col gap-2 ${
-                          formData.roofType === item.id
+                        onClick={() => setRoofType(item.id as RoofType)}
+                        className={`p-5 rounded-2xl border text-left transition-all flex flex-col gap-2 cursor-pointer ${
+                          roofType === item.id
                             ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
                             : "bg-slate-800/50 border-slate-700/60 text-slate-300 hover:border-slate-600"
                         }`}
@@ -172,7 +145,7 @@ export default function LeadEstimator() {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all cursor-pointer"
                     >
                       Next Step →
                     </button>
@@ -180,7 +153,6 @@ export default function LeadEstimator() {
                 </div>
               )}
 
-              {/* STEP 2: Monthly Electric Bill */}
               {step === 2 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -195,18 +167,18 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() => handleBillSelect(item.id as BillRange)}
-                        className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between ${
-                          formData.monthlyBill === item.id
+                        onClick={() => setMonthlyBill(item.id as BillRange)}
+                        className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between cursor-pointer ${
+                          monthlyBill === item.id
                             ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
                             : "bg-slate-800/50 border-slate-700/60 text-slate-300 hover:border-slate-600"
                         }`}
                       >
                         <span className="font-semibold">{item.label}</span>
                         <span
-                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${formData.monthlyBill === item.id ? "border-emerald-400 bg-emerald-400 text-slate-950 text-xs font-bold" : "border-slate-600"}`}
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${monthlyBill === item.id ? "border-emerald-400 bg-emerald-400 text-slate-950 text-xs font-bold" : "border-slate-600"}`}
                         >
-                          {formData.monthlyBill === item.id ? "✓" : ""}
+                          {monthlyBill === item.id ? "✓" : ""}
                         </span>
                       </button>
                     ))}
@@ -216,14 +188,14 @@ export default function LeadEstimator() {
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all"
+                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all cursor-pointer"
                     >
                       View Estimate →
                     </button>
@@ -231,7 +203,6 @@ export default function LeadEstimator() {
                 </div>
               )}
 
-              {/* STEP 3: Contact Details & Live Estimate Reveal */}
               {step === 3 && (
                 <div className="space-y-6">
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between">
@@ -266,13 +237,8 @@ export default function LeadEstimator() {
                         type="text"
                         required
                         placeholder="John Doe"
-                        value={formData.fullName}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            fullName: e.target.value,
-                          }))
-                        }
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
                     </div>
@@ -284,13 +250,8 @@ export default function LeadEstimator() {
                         type="text"
                         required
                         placeholder="90210"
-                        value={formData.zipCode}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            zipCode: e.target.value,
-                          }))
-                        }
+                        value={zipCode}
+                        onChange={(e) => setZipCode(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
                     </div>
@@ -305,13 +266,8 @@ export default function LeadEstimator() {
                         type="email"
                         required
                         placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }))
-                        }
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
                     </div>
@@ -323,13 +279,8 @@ export default function LeadEstimator() {
                         type="tel"
                         required
                         placeholder="(555) 000-0000"
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            phone: e.target.value,
-                          }))
-                        }
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
                       />
                     </div>
@@ -339,13 +290,13 @@ export default function LeadEstimator() {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all"
+                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="submit"
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
                     >
                       Get My Free Proposal →
                     </button>
