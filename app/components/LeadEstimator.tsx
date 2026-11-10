@@ -32,7 +32,7 @@ export default function LeadEstimator() {
 
   const savings = getSavings();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFinalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
   };
@@ -101,6 +101,7 @@ export default function LeadEstimator() {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => {
                   setIsSubmitted(false);
                   setStep(1);
@@ -111,7 +112,8 @@ export default function LeadEstimator() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <div>
+              {/* STEP 1: Roof Type Selection */}
               {step === 1 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -152,6 +154,7 @@ export default function LeadEstimator() {
                 </div>
               )}
 
+              {/* STEP 2: Monthly Electric Bill */}
               {step === 2 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -206,8 +209,9 @@ export default function LeadEstimator() {
                 </div>
               )}
 
+              {/* STEP 3: Contact Details Form */}
               {step === 3 && (
-                <div className="space-y-6">
+                <form onSubmit={handleFinalSubmit} className="space-y-6">
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between">
                     <div>
                       <div className="text-xs text-emerald-400 uppercase tracking-wider font-semibold">
@@ -304,9 +308,9 @@ export default function LeadEstimator() {
                       Get My Free Proposal →
                     </button>
                   </div>
-                </div>
+                </form>
               )}
-            </form>
+            </div>
           )}
         </div>
       </div>
