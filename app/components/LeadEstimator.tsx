@@ -2,40 +2,27 @@
 
 import { useState } from "react";
 
-type RoofType = "shingle" | "tile" | "metal" | "flat";
-type BillRange = "100-200" | "200-400" | "400+";
-
 export default function LeadEstimator() {
-  const [step, setStep] = useState<number>(1);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [step, setStep] = useState(1);
+  const [roofType, setRoofType] = useState("shingle");
+  const [monthlyBill, setMonthlyBill] = useState("200-400");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [roofType, setRoofType] = useState<RoofType>("shingle");
-  const [monthlyBill, setMonthlyBill] = useState<BillRange>("200-400");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [zipCode, setZipCode] = useState("");
 
-  const [fullName, setFullName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [zipCode, setZipCode] = useState<string>("");
-
-  const getSavings = () => {
-    switch (monthlyBill) {
-      case "100-200":
-        return { monthly: "$140", twentyFiveYear: "$28,500" };
-      case "200-400":
-        return { monthly: "$290", twentyFiveYear: "$54,200" };
-      case "400+":
-        return { monthly: "$480", twentyFiveYear: "$89,000" };
-      default:
-        return { monthly: "$290", twentyFiveYear: "$54,200" };
-    }
+  const savingsMap: Record<
+    string,
+    { monthly: string; twentyFiveYear: string }
+  > = {
+    "100-200": { monthly: "$140", twentyFiveYear: "$28,500" },
+    "200-400": { monthly: "$290", twentyFiveYear: "$54,200" },
+    "400+": { monthly: "$480", twentyFiveYear: "$89,000" },
   };
 
-  const savings = getSavings();
-
-  const handleFinalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-  };
+  const savings = savingsMap[monthlyBill] || savingsMap["200-400"];
 
   return (
     <section id="estimator" className="py-24 bg-slate-950 text-white relative">
@@ -47,13 +34,10 @@ export default function LeadEstimator() {
           <h2 className="text-3xl sm:text-4xl font-extrabold mt-4 mb-3">
             Calculate Your Custom Solar Estimate
           </h2>
-          <p className="text-slate-400">
-            Takes less than 60 seconds. See your projected 25-year savings
-            instantly.
-          </p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+          {/* Progress Indicator */}
           {!isSubmitted && (
             <div className="mb-8">
               <div className="flex justify-between text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
@@ -63,7 +47,7 @@ export default function LeadEstimator() {
                     ? "Roof Type"
                     : step === 2
                       ? "Energy Bill"
-                      : "Instant Estimate & Contact"}
+                      : "Contact & Estimate"}
                 </span>
               </div>
               <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
@@ -75,18 +59,18 @@ export default function LeadEstimator() {
             </div>
           )}
 
+          {/* SUCCESS SCREEN */}
           {isSubmitted ? (
             <div className="text-center py-12 space-y-6">
-              <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl">
+              <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
                 ✓
               </div>
               <h3 className="text-2xl font-bold">
-                Your Estimate is Ready, {fullName}!
+                Estimate Ready, {fullName}!
               </h3>
-              <p className="text-slate-300 max-w-md mx-auto">
-                We've sent your breakdown to{" "}
-                <span className="text-emerald-400">{email}</span>. A local
-                specialist will review your roof for zip code{" "}
+              <p className="text-slate-300">
+                We sent your breakdown to{" "}
+                <span className="text-emerald-400">{email}</span> for zip code{" "}
                 <span className="text-white font-semibold">{zipCode}</span>.
               </p>
               <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 max-w-sm mx-auto">
@@ -96,9 +80,6 @@ export default function LeadEstimator() {
                 <div className="text-4xl font-black text-emerald-400 my-1">
                   {savings.twentyFiveYear}
                 </div>
-                <div className="text-xs text-slate-500">
-                  Includes 30% Federal Tax Credit
-                </div>
               </div>
               <button
                 type="button"
@@ -106,14 +87,14 @@ export default function LeadEstimator() {
                   setIsSubmitted(false);
                   setStep(1);
                 }}
-                className="text-sm text-slate-400 hover:text-white underline pt-4 cursor-pointer"
+                className="text-sm text-slate-400 hover:text-white underline cursor-pointer"
               >
                 Reset Calculator
               </button>
             </div>
           ) : (
             <div>
-              {/* STEP 1: Roof Type Selection */}
+              {/* STEP 1 */}
               {step === 1 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -129,11 +110,11 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() => setRoofType(item.id as RoofType)}
+                        onClick={() => setRoofType(item.id)}
                         className={`p-5 rounded-2xl border text-left transition-all flex flex-col gap-2 cursor-pointer ${
                           roofType === item.id
-                            ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
-                            : "bg-slate-800/50 border-slate-700/60 text-slate-300 hover:border-slate-600"
+                            ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg"
+                            : "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500"
                         }`}
                       >
                         <span className="text-2xl">{item.icon}</span>
@@ -146,7 +127,7 @@ export default function LeadEstimator() {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all cursor-pointer"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl cursor-pointer transition-all"
                     >
                       Next Step →
                     </button>
@@ -154,7 +135,7 @@ export default function LeadEstimator() {
                 </div>
               )}
 
-              {/* STEP 2: Monthly Electric Bill */}
+              {/* STEP 2 */}
               {step === 2 && (
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold">
@@ -169,23 +150,15 @@ export default function LeadEstimator() {
                       <button
                         key={item.id}
                         type="button"
-                        onClick={() => setMonthlyBill(item.id as BillRange)}
+                        onClick={() => setMonthlyBill(item.id)}
                         className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between cursor-pointer ${
                           monthlyBill === item.id
-                            ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg shadow-emerald-500/10"
-                            : "bg-slate-800/50 border-slate-700/60 text-slate-300 hover:border-slate-600"
+                            ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg"
+                            : "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500"
                         }`}
                       >
                         <span className="font-semibold">{item.label}</span>
-                        <span
-                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                            monthlyBill === item.id
-                              ? "border-emerald-400 bg-emerald-400 text-slate-950 text-xs font-bold"
-                              : "border-slate-600"
-                          }`}
-                        >
-                          {monthlyBill === item.id ? "✓" : ""}
-                        </span>
+                        <span>{monthlyBill === item.id ? "✓" : ""}</span>
                       </button>
                     ))}
                   </div>
@@ -194,14 +167,14 @@ export default function LeadEstimator() {
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all cursor-pointer"
+                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl transition-all cursor-pointer"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl cursor-pointer"
                     >
                       View Estimate →
                     </button>
@@ -209,12 +182,18 @@ export default function LeadEstimator() {
                 </div>
               )}
 
-              {/* STEP 3: Contact Details Form */}
+              {/* STEP 3 */}
               {step === 3 && (
-                <form onSubmit={handleFinalSubmit} className="space-y-6">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setIsSubmitted(true);
+                  }}
+                  className="space-y-6"
+                >
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between">
                     <div>
-                      <div className="text-xs text-emerald-400 uppercase tracking-wider font-semibold">
+                      <div className="text-xs text-emerald-400 font-semibold uppercase">
                         Estimated Monthly Savings
                       </div>
                       <div className="text-2xl font-black text-white">
@@ -222,7 +201,7 @@ export default function LeadEstimator() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-emerald-400 uppercase tracking-wider font-semibold">
+                      <div className="text-xs text-emerald-400 font-semibold uppercase">
                         25-Year Total
                       </div>
                       <div className="text-2xl font-black text-emerald-400">
@@ -236,74 +215,54 @@ export default function LeadEstimator() {
                   </h3>
 
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="John Doe"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                        Zip Code
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="90210"
-                        value={zipCode}
-                        onChange={(e) => setZipCode(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Full Name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                    />
+                    <input
+                      type="text"
+                      required
+                      placeholder="Zip Code"
+                      value={zipCode}
+                      onChange={(e) => setZipCode(e.target.value)}
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                    />
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="john@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="(555) 000-0000"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      required
+                      placeholder="Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                    />
+                    <input
+                      type="tel"
+                      required
+                      placeholder="Phone Number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                    />
                   </div>
 
                   <div className="flex justify-between pt-4">
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl transition-all cursor-pointer"
+                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="submit"
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3 rounded-xl shadow-lg cursor-pointer"
                     >
                       Get My Free Proposal →
                     </button>
