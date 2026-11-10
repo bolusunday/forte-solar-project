@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -29,13 +29,13 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
               <a
                 href="#estimator"
-                className="inline-flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
               >
                 Calculate My Savings →
               </a>
               <a
                 href="tel:5551234567"
-                className="inline-flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-4 rounded-xl border border-slate-700 transition-all"
+                className="inline-flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-4 rounded-xl border border-slate-700 transition-all cursor-pointer"
               >
                 Call (555) 123-4567
               </a>
@@ -58,27 +58,21 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Modern Split-Screen Visual / Mockup */}
+          {/* Right Column: Real Photo with Floating Badge */}
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl p-3">
-              <div className="rounded-2xl overflow-hidden aspect-video lg:aspect-4/3 relative bg-slate-900 flex items-center justify-center border border-slate-800/80">
-                {/* Visual Background Gradient & Graphic representation of Solar Home */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950/50 via-slate-900/80 to-slate-950 flex flex-col items-center justify-center p-8 text-center">
-                  <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-3xl flex items-center justify-center text-4xl shadow-2xl mb-4 transform hover:scale-105 transition-transform">
-                    🏡
-                  </div>
-                  <h3 className="text-white font-bold text-xl mb-1">
-                    High-Efficiency Solar Array
-                  </h3>
-                  <p className="text-xs text-slate-400 max-w-xs">
-                    Engineered for maximum daily sunlight absorption and weather
-                    durability.
-                  </p>
-                </div>
+            <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl p-2">
+              <div className="rounded-2xl overflow-hidden aspect-video lg:aspect-4/3 relative bg-slate-900">
+                <Image
+                  src="/images/solar-home.jpg"
+                  alt="Modern home with integrated solar panel architecture"
+                  fill
+                  priority
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                />
               </div>
 
               {/* Floating ROI Stat Badge */}
-              <div className="absolute bottom-6 left-6 bg-slate-900/95 backdrop-blur-md border border-slate-800 p-4 rounded-2xl shadow-2xl">
+              <div className="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-slate-800/80 p-4 rounded-2xl shadow-2xl">
                 <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">
                   Average 25-Year Return
                 </div>
