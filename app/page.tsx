@@ -1,6 +1,7 @@
 import Hero from "./components/Hero";
 import TrustBar from "./components/TrustBar";
 import ValueProps from "./components/ValueProps";
+import LeadEstimator from "./components/LeadEstimator";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <ValueProps />
+      <LeadEstimator />
     </main>
   );
 }
