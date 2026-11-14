@@ -67,6 +67,7 @@ export default function Hero() {
                   alt="Modern home with integrated solar panel architecture"
                   fill
                   priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
