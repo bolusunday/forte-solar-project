@@ -73,9 +73,10 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Real Photo with Floating Badge */}
+          {/* Right Column: Real Photo with Floating Badge */}
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
             <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl p-2">
-              <div className="rounded-2xl overflow-hidden aspect-video lg:aspect-4/3 relative bg-slate-900">
+              <div className="rounded-2xl overflow-hidden aspect-square sm:aspect-video lg:aspect-4/3 relative bg-slate-900">
                 <Image
                   src="/images/solar-home.webp"
                   alt="Modern home with integrated solar panel architecture"
