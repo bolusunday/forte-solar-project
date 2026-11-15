@@ -1,6 +1,19 @@
+"use client";
+
 import Image from "next/image";
 
 export default function Hero() {
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative bg-slate-900 text-white pt-24 pb-20 overflow-hidden">
       {/* Background Glow Effect */}
@@ -29,6 +42,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
               <a
                 href="#estimator"
+                onClick={(e) => scrollToSection(e, "#estimator")}
                 className="inline-flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 cursor-pointer"
               >
                 Calculate My Savings →

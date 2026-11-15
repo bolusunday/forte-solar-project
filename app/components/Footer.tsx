@@ -1,4 +1,17 @@
+"use client";
+
 export default function Footer() {
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="bg-slate-950 border-t border-slate-900 text-slate-400 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
@@ -28,7 +41,8 @@ export default function Footer() {
             <li>
               <a
                 href="#estimator"
-                className="hover:text-emerald-400 transition-colors"
+                onClick={(e) => scrollToSection(e, "#estimator")}
+                className="hover:text-emerald-400 transition-colors cursor-pointer"
               >
                 Solar Calculator
               </a>
@@ -36,7 +50,8 @@ export default function Footer() {
             <li>
               <a
                 href="#comparison"
-                className="hover:text-emerald-400 transition-colors"
+                onClick={(e) => scrollToSection(e, "#comparison")}
+                className="hover:text-emerald-400 transition-colors cursor-pointer"
               >
                 Financial Savings
               </a>
@@ -44,7 +59,8 @@ export default function Footer() {
             <li>
               <a
                 href="#faq"
-                className="hover:text-emerald-400 transition-colors"
+                onClick={(e) => scrollToSection(e, "#faq")}
+                className="hover:text-emerald-400 transition-colors cursor-pointer"
               >
                 FAQ & Support
               </a>
