@@ -38,22 +38,22 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-slate-950 text-white">
+    <section id="faq" className="py-16 sm:py-24 bg-slate-950 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="text-emerald-400 font-semibold text-sm uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+        <div className="text-center mb-10 sm:mb-16">
+          <span className="text-emerald-400 font-semibold text-xs sm:text-sm uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
             Got Questions?
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold mt-4 mb-3">
+          <h2 className="text-2xl sm:text-4xl font-extrabold mt-4 mb-3 leading-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm sm:text-base px-2">
             Everything you need to know about switching to clean, reliable solar
             energy.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -62,18 +62,18 @@ export default function FAQ() {
               <button
                 type="button"
                 onClick={() => toggleFaq(index)}
-                className="w-full p-6 text-left flex justify-between items-center gap-4 cursor-pointer font-bold text-lg hover:text-emerald-400 transition-colors"
+                className="w-full p-4 sm:p-6 text-left flex justify-between items-center gap-3 sm:gap-4 cursor-pointer font-bold text-base sm:text-lg hover:text-emerald-400 transition-colors"
               >
                 <span>{faq.question}</span>
                 <span
-                  className={`w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-sm transition-transform duration-300 ${openIndex === index ? "rotate-180 bg-emerald-500/20 text-emerald-400" : "text-slate-400"}`}
+                  className={`w-7 h-7 sm:w-8 sm:h-8 shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-xs sm:text-sm transition-transform duration-300 ${openIndex === index ? "rotate-180 bg-emerald-500/20 text-emerald-400" : "text-slate-400"}`}
                 >
                   ↓
                 </span>
               </button>
 
               {openIndex === index && (
-                <div className="px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/50 pt-4">
+                <div className="px-4 pb-5 pt-2 sm:px-6 sm:pb-6 sm:pt-4 text-slate-300 text-xs sm:text-sm leading-relaxed border-t border-slate-800/50">
                   {faq.answer}
                 </div>
               )}
