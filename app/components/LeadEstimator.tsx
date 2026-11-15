@@ -25,21 +25,24 @@ export default function LeadEstimator() {
   const savings = savingsMap[monthlyBill] || savingsMap["200-400"];
 
   return (
-    <section id="estimator" className="py-24 bg-slate-950 text-white relative">
+    <section
+      id="estimator"
+      className="py-16 sm:py-24 bg-slate-950 text-white relative"
+    >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="text-emerald-400 font-semibold text-sm uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+        <div className="text-center mb-10 sm:mb-12">
+          <span className="text-emerald-400 font-semibold text-xs sm:text-sm uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
             Interactive Lead Funnel
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold mt-4 mb-3">
+          <h2 className="text-2xl sm:text-4xl font-extrabold mt-4 mb-3 leading-tight">
             Calculate Your Custom Solar Estimate
           </h2>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-10 shadow-2xl">
           {/* Progress Indicator */}
           {!isSubmitted && (
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <div className="flex justify-between text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
                 <span>Step {step} of 3</span>
                 <span>
@@ -61,23 +64,24 @@ export default function LeadEstimator() {
 
           {/* SUCCESS SCREEN */}
           {isSubmitted ? (
-            <div className="text-center py-12 space-y-6">
+            <div className="text-center py-8 sm:py-12 space-y-6">
               <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
                 ✓
               </div>
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-xl sm:text-2xl font-bold">
                 Estimate Ready, {fullName}!
               </h3>
-              <p className="text-slate-300">
+              <p className="text-slate-300 text-sm sm:text-base px-2">
                 We sent your breakdown to{" "}
-                <span className="text-emerald-400">{email}</span> for zip code{" "}
+                <span className="text-emerald-400 break-all">{email}</span> for
+                zip code{" "}
                 <span className="text-white font-semibold">{zipCode}</span>.
               </p>
-              <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 max-w-sm mx-auto">
+              <div className="bg-slate-950 p-5 sm:p-6 rounded-2xl border border-slate-800 max-w-sm mx-auto">
                 <div className="text-xs text-slate-400">
                   Projected 25-Year Savings
                 </div>
-                <div className="text-4xl font-black text-emerald-400 my-1">
+                <div className="text-3xl sm:text-4xl font-black text-emerald-400 my-1">
                   {savings.twentyFiveYear}
                 </div>
               </div>
@@ -87,7 +91,7 @@ export default function LeadEstimator() {
                   setIsSubmitted(false);
                   setStep(1);
                 }}
-                className="text-sm text-slate-400 hover:text-white underline cursor-pointer"
+                className="text-sm text-slate-400 hover:text-white underline cursor-pointer pt-2"
               >
                 Reset Calculator
               </button>
@@ -97,10 +101,10 @@ export default function LeadEstimator() {
               {/* STEP 1 */}
               {step === 1 && (
                 <div className="space-y-6">
-                  <h3 className="text-xl font-bold">
+                  <h3 className="text-lg sm:text-xl font-bold">
                     What type of roof do you have?
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {[
                       { id: "shingle", label: "Asphalt Shingle", icon: "🏠" },
                       { id: "tile", label: "Clay / Concrete Tile", icon: "🏛️" },
@@ -111,23 +115,25 @@ export default function LeadEstimator() {
                         key={item.id}
                         type="button"
                         onClick={() => setRoofType(item.id)}
-                        className={`p-5 rounded-2xl border text-left transition-all flex flex-col gap-2 cursor-pointer ${
+                        className={`p-4 sm:p-5 rounded-2xl border text-left transition-all flex items-center sm:flex-col gap-3 sm:gap-2 cursor-pointer ${
                           roofType === item.id
                             ? "bg-emerald-500/10 border-emerald-500 text-white shadow-lg"
                             : "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500"
                         }`}
                       >
                         <span className="text-2xl">{item.icon}</span>
-                        <span className="font-semibold">{item.label}</span>
+                        <span className="font-semibold text-sm sm:text-base">
+                          {item.label}
+                        </span>
                       </button>
                     ))}
                   </div>
 
-                  <div className="flex justify-end pt-4">
+                  <div className="flex justify-end pt-2">
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl cursor-pointer transition-all"
+                      className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3.5 sm:py-3 rounded-xl cursor-pointer transition-all text-center"
                     >
                       Next Step →
                     </button>
@@ -138,7 +144,7 @@ export default function LeadEstimator() {
               {/* STEP 2 */}
               {step === 2 && (
                 <div className="space-y-6">
-                  <h3 className="text-xl font-bold">
+                  <h3 className="text-lg sm:text-xl font-bold">
                     What is your average monthly electric bill?
                   </h3>
                   <div className="space-y-3">
@@ -157,24 +163,28 @@ export default function LeadEstimator() {
                             : "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500"
                         }`}
                       >
-                        <span className="font-semibold">{item.label}</span>
-                        <span>{monthlyBill === item.id ? "✓" : ""}</span>
+                        <span className="font-semibold text-sm sm:text-base">
+                          {item.label}
+                        </span>
+                        <span className="text-emerald-400">
+                          {monthlyBill === item.id ? "✓" : ""}
+                        </span>
                       </button>
                     ))}
                   </div>
 
-                  <div className="flex justify-between pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row justify-between gap-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl cursor-pointer"
+                      className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3.5 sm:py-3 rounded-xl cursor-pointer text-center"
                     >
                       ← Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3 rounded-xl cursor-pointer"
+                      className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-8 py-3.5 sm:py-3 rounded-xl cursor-pointer text-center"
                     >
                       View Estimate →
                     </button>
@@ -189,39 +199,39 @@ export default function LeadEstimator() {
                     e.preventDefault();
                     setIsSubmitted(true);
                   }}
-                  className="space-y-6"
+                  className="space-y-5 sm:space-y-6"
                 >
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between">
                     <div>
-                      <div className="text-xs text-emerald-400 font-semibold uppercase">
+                      <div className="text-[10px] sm:text-xs text-emerald-400 font-semibold uppercase">
                         Estimated Monthly Savings
                       </div>
-                      <div className="text-2xl font-black text-white">
+                      <div className="text-xl sm:text-2xl font-black text-white">
                         {savings.monthly} /mo
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs text-emerald-400 font-semibold uppercase">
+                      <div className="text-[10px] sm:text-xs text-emerald-400 font-semibold uppercase">
                         25-Year Total
                       </div>
-                      <div className="text-2xl font-black text-emerald-400">
+                      <div className="text-xl sm:text-2xl font-black text-emerald-400">
                         {savings.twentyFiveYear}
                       </div>
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold">
+                  <h3 className="text-lg sm:text-xl font-bold">
                     Where should we send your custom proposal?
                   </h3>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                       type="text"
                       required
                       placeholder="Full Name"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-emerald-500"
                     />
                     <input
                       type="text"
@@ -229,18 +239,18 @@ export default function LeadEstimator() {
                       placeholder="Zip Code"
                       value={zipCode}
                       onChange={(e) => setZipCode(e.target.value)}
-                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                       type="email"
                       required
                       placeholder="Email Address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-emerald-500"
                     />
                     <input
                       type="tel"
@@ -248,21 +258,21 @@ export default function LeadEstimator() {
                       placeholder="Phone Number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500"
+                      className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
 
-                  <div className="flex justify-between pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row justify-between gap-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3 rounded-xl cursor-pointer"
+                      className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-6 py-3.5 sm:py-3 rounded-xl cursor-pointer text-center"
                     >
                       ← Back
                     </button>
                     <button
                       type="submit"
-                      className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3 rounded-xl shadow-lg cursor-pointer"
+                      className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold px-8 py-3.5 sm:py-3 rounded-xl shadow-lg cursor-pointer text-center"
                     >
                       Get My Free Proposal →
                     </button>
